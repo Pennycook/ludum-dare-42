@@ -29,59 +29,20 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+/**
+ * Based on Brackey's Dialogue-System tutorial:
+ * https://github.com/Brackeys/Dialogue-System
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+[System.Serializable]
+public class Dialogue
 {
 
-    // Singleton instance
-    public static GameManager instance = null;
-
-    // Shorthands to access other managers
-    public static DialogueManager dialogueManager;
-
-    // Magic constants for win/lose conditions
-    private const int MAX_HITS = 5;
-
-    // Game state
-    protected static int hits;
-
-    void Awake()
-    {
-        // Ensure only one GameManager exists
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
-        DontDestroyOnLoad(gameObject);
-
-        // Initialize game state
-        hits = 0;
-
-        // Find other managers
-        dialogueManager = FindObjectOfType<DialogueManager>();
-    }
-
-    public static void HitGlass()
-    {
-        hits++;
-        if (hits >= MAX_HITS)
-        {
-            Dialogue secretEnding = new Dialogue();            
-            secretEnding.color = new Color32(255, 150, 255, 255);
-            secretEnding.name = "Professor";
-            secretEnding.sentences = new string[] {
-                "...The subject seems to have broken free of the glass.",
-                "This has never happened before."
-            };
-            dialogueManager.OpenDialogue(secretEnding);
-        }
-    }
+    public Color color;
+    public string name;
+    public string[] sentences;
 
 }

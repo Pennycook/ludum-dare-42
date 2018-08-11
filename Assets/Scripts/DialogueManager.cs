@@ -29,59 +29,65 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+/**
+ * Based on Brackey's Dialogue-System tutorial:
+ * https://github.com/Brackeys/Dialogue-System
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class DialogueManager : MonoBehaviour
 {
 
-    // Singleton instance
-    public static GameManager instance = null;
+    public Image box;
+    public Text nameUI;
+    public Text dialogueUI;
 
-    // Shorthands to access other managers
-    public static DialogueManager dialogueManager;
-
-    // Magic constants for win/lose conditions
-    private const int MAX_HITS = 5;
-
-    // Game state
-    protected static int hits;
+    private Queue<string> sentenceQueue;
 
     void Awake()
     {
-        // Ensure only one GameManager exists
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
-        DontDestroyOnLoad(gameObject);
-
-        // Initialize game state
-        hits = 0;
-
-        // Find other managers
-        dialogueManager = FindObjectOfType<DialogueManager>();
+        sentenceQueue = new Queue<string>();
     }
 
-    public static void HitGlass()
+    public void OpenDialogue(Dialogue dialogue)
     {
-        hits++;
-        if (hits >= MAX_HITS)
+        nameUI.color = dialogue.color;
+        nameUI.text = dialogue.name;
+
+        sentenceQueue.Clear();
+        foreach (string sentence in dialogue.sentences)
         {
-            Dialogue secretEnding = new Dialogue();            
-            secretEnding.color = new Color32(255, 150, 255, 255);
-            secretEnding.name = "Professor";
-            secretEnding.sentences = new string[] {
-                "...The subject seems to have broken free of the glass.",
-                "This has never happened before."
-            };
-            dialogueManager.OpenDialogue(secretEnding);
+            sentenceQueue.Enqueue(string.Format("\"{0}\"", sentence));
         }
+
+        box.GetComponent<CanvasGroup>().alpha = 1;
+        StopAllCoroutines();
+        StartCoroutine(TypeDialogue());
+    }
+
+    IEnumerator TypeDialogue()
+    {
+        while (sentenceQueue.Count > 0)
+        {
+            string sentence = sentenceQueue.Dequeue();
+
+            dialogueUI.text = "";
+            foreach (char letter in sentence.ToCharArray())
+            {
+                dialogueUI.text += letter;
+                yield return null;
+            }
+            yield return new WaitForSeconds(2.0f);
+        }
+        CloseDialogue();
+    }
+    
+    public void CloseDialogue()
+    {
+        box.GetComponent<CanvasGroup>().alpha = 0;
     }
 
 }
