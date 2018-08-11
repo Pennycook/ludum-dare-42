@@ -43,7 +43,7 @@ public class Cell : MonoBehaviour
     const float HEIGHT = 2.5f;
     const float MIN_WIDTH = 1f;
     const float MAX_WIDTH = 10f;
-    const float DELTA = 0.01f;
+    const float DELTA = 0.005f;
 
     protected float width;
     protected GameObject[] walls;
