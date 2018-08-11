@@ -41,8 +41,9 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        camera = GetComponent<Camera>();
+        camera = GetComponentInChildren<Camera>();
         controller = GetComponentInChildren<CharacterController>();
+        Cursor.visible = false;
     }
 
     void Update()
@@ -55,7 +56,11 @@ public class PlayerController : MonoBehaviour
         Vector3 speed = forward * walk + right * strafe;
         controller.SimpleMove(speed);
 
-        // TODO: Change look direction based on mouse location
+        // Change look direction based on mouse location
+        float horizontal = Input.GetAxis("Mouse X");
+        float vertical = Input.GetAxis("Mouse Y");
+        transform.localRotation *= Quaternion.Euler(0, horizontal, 0);
+        camera.transform.localRotation *= Quaternion.Euler(-vertical, 0, 0);
     }
 
 }
