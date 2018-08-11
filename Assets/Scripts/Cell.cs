@@ -55,17 +55,17 @@ public class Cell : MonoBehaviour
         // Create cell geometry
         width = MAX_WIDTH;
 
-        floor = GameObject.Instantiate(floorPrefab);
+        floor = GameObject.Instantiate(floorPrefab, this.transform);
         floor.transform.localScale = new Vector3(width, width, 1);
 
-        ceiling = GameObject.Instantiate(ceilingPrefab);
+        ceiling = GameObject.Instantiate(ceilingPrefab, this.transform);
         ceiling.transform.localScale = new Vector3(width, width, 1);
         ceiling.transform.localPosition += new Vector3(0, HEIGHT, 0);
 
         walls = new GameObject[4];
         for (int d = 0; d < 4; ++d)
         {
-            walls[d] = GameObject.Instantiate(wallPrefab);
+            walls[d] = GameObject.Instantiate(wallPrefab, this.transform);
             walls[d].transform.localScale = new Vector3(0.02f, HEIGHT, width);
             walls[d].transform.localPosition += new Vector3(0, HEIGHT / 2, 0);
             switch (d)

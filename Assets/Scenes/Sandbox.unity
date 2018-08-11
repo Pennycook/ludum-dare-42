@@ -200,7 +200,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4970026113950256, guid: 0fe9e2286f84901479eba869a5e51faf, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4970026113950256, guid: 0fe9e2286f84901479eba869a5e51faf, type: 2}
       propertyPath: m_LocalPosition.z
@@ -241,6 +241,15 @@ Prefab:
       propertyPath: rightLaser
       value: 
       objectReference: {fileID: 1531548286}
+    - target: {fileID: 114159132807684108, guid: 0fe9e2286f84901479eba869a5e51faf,
+        type: 2}
+      propertyPath: testLaser
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4171005103382290, guid: 0fe9e2286f84901479eba869a5e51faf, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0fe9e2286f84901479eba869a5e51faf, type: 2}
   m_IsPrefabParent: 0
@@ -1089,7 +1098,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4293539282423730, guid: 670d7351e8ca1cb46881e2162e234bea, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4293539282423730, guid: 670d7351e8ca1cb46881e2162e234bea, type: 2}
       propertyPath: m_LocalPosition.z
