@@ -37,9 +37,10 @@ public class PlayerController : MonoBehaviour
 {
     public AudioClip footstep1;
     public AudioClip footstep2;
+    public AudioClip pewpew;
 
-    private new Camera camera;
-    private new AudioSource audio;
+    private Camera camera;
+    private AudioSource audio;
     protected CharacterController controller;
 
     protected AudioClip[] footsteps;
@@ -84,6 +85,31 @@ public class PlayerController : MonoBehaviour
             audio.Play();
             step = (step + 1) % footsteps.Length;
             lastStepTime = Time.time;
+        }
+
+        // Shoot on mouse
+        // TODO: Use "Fire1" instead of mouse?
+        // TODO: Spawn a laser or something when firing
+        if (Input.GetMouseButtonDown(0))
+        {
+            audio.clip = pewpew;
+            audio.Play();
+
+            int mask = ~(1 << 8); // Player layer is first layer that isn't reserved (8)
+            RaycastHit target;
+            bool hit = Physics.Raycast(camera.transform.position, camera.transform.forward, out target, Mathf.Infinity, mask); // TODO: Tweak firing distance
+            if (hit)
+            {
+                if (target.transform.gameObject.CompareTag("Glass"))
+                {
+                    GameManager.HitGlass();
+                }
+                else if (target.transform.gameObject.CompareTag("Enemy"))
+                {
+                    Enemy enemy = target.transform.gameObject.GetComponent<Enemy>(); // TODO: Replace this with messages?
+                    enemy.Die();
+                }
+            }
         }
     }
 

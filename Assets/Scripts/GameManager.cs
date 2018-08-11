@@ -33,35 +33,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
 
-    const int MAX_HEALTH = 1;
-    const float MAX_SPEED = 1f;
+    // Singleton instance
+    public static GameManager instance = null;
 
-    protected Rigidbody body;
-    protected int health;
+    // Magic constants for win/lose conditions
+    private const int MAX_HITS = 5;
 
-    void Start()
+    // Game state
+    protected static int hits;
+
+    void Awake()
     {
-        body = GetComponent<Rigidbody>();
-        health = MAX_HEALTH;
-    }
-
-    void Update()
-    {
-        // Move randomly (while alive)
-        if (health > 0)
+        // Ensure only one GameManager exists
+        if (instance == null)
         {
-            body.velocity += Random.onUnitSphere * MAX_SPEED;
+            instance = this;
         }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+
+        // Initialize game state
+        hits = 0;
     }
 
-    public void Die()
+    public static void HitGlass()
     {
-        health = 0;
-        body.velocity = new Vector3(0, 0, 0);
-        body.useGravity = true;
+        hits++;
+        if (hits >= MAX_HITS)
+        {
+            // TODO: Secret ending
+        }
     }
 
 }
