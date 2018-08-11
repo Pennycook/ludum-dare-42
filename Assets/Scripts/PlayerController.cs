@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour
         audio = GetComponent<AudioSource>();
         controller = GetComponentInChildren<CharacterController>();
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
 
         footsteps = new AudioClip[2];
         footsteps[0] = footstep1;
