@@ -68,6 +68,25 @@ public class GameManager : MonoBehaviour
         dialogueManager = FindObjectOfType<DialogueManager>();
     }
 
+    void Start()
+    {
+        Begin();
+    }
+
+    public static void Begin()
+    {
+        Dialogue exposition = new Dialogue();
+        exposition.color = new Color32(255, 150, 255, 255);
+        exposition.name = "Professor";
+        exposition.sentences = new string[] {
+            string.Format("Hello, Subject #{0}.", (int) Random.Range(1, 8192)),
+            "I have good news: based on your results so far, there is a 75% chance that this next test will be your last.",
+            "Unfortunately, there is also a 25% chance that you will die -- horribly.",
+            "Please, try not to panic."
+        };
+        dialogueManager.OpenDialogue(exposition);
+    }
+
     public static void HitGlass()
     {
         hits++;

@@ -234,26 +234,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0fe9e2286f84901479eba869a5e51faf, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &320429557 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1936356632724586, guid: 9357fc09dab79e249aba869735ea57ef,
-    type: 2}
-  m_PrefabInternal: {fileID: 957781200}
---- !u!114 &320429558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 320429557}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ec1aeabdaf29e64fb9e8dcbf8b57e8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: {r: 0, g: 0, b: 0, a: 0}
-  name: 
-  sentences:
-  - 
 --- !u!1001 &726123915
 Prefab:
   m_ObjectHideFlags: 0
@@ -623,7 +603,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1157585085}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
