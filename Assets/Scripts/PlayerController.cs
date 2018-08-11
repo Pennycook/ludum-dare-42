@@ -35,15 +35,29 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public AudioClip footstep1;
+    public AudioClip footstep2;
 
     private new Camera camera;
+    private new AudioSource audio;
     protected CharacterController controller;
+
+    protected AudioClip[] footsteps;
+    private int step;
+    private float lastStepTime;
 
     void Start()
     {
         camera = GetComponentInChildren<Camera>();
+        audio = GetComponent<AudioSource>();
         controller = GetComponentInChildren<CharacterController>();
         Cursor.visible = false;
+
+        footsteps = new AudioClip[2];
+        footsteps[0] = footstep1;
+        footsteps[1] = footstep2;
+        step = 0;
+        lastStepTime = Time.time;
     }
 
     void Update()
@@ -61,6 +75,16 @@ public class PlayerController : MonoBehaviour
         float vertical = Input.GetAxis("Mouse Y");
         transform.localRotation *= Quaternion.Euler(0, horizontal, 0);
         camera.transform.localRotation *= Quaternion.Euler(-vertical, 0, 0);
+
+        // Play a footstep sound when walking
+        if (controller.isGrounded && (strafe != 0 || walk != 0)
+            && !audio.isPlaying && Time.time - lastStepTime >= 0.5f)
+        {
+            audio.clip = footsteps[step];
+            audio.Play();
+            step = (step + 1) % footsteps.Length;
+            lastStepTime = Time.time;
+        }
     }
 
 }
