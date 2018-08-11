@@ -38,6 +38,8 @@ public class PlayerController : MonoBehaviour
     public AudioClip footstep1;
     public AudioClip footstep2;
     public AudioClip pewpew;
+    public LineRenderer leftLaser;
+    public LineRenderer rightLaser;
 
     private Camera camera;
     private AudioSource audio;
@@ -52,6 +54,7 @@ public class PlayerController : MonoBehaviour
         camera = GetComponentInChildren<Camera>();
         audio = GetComponent<AudioSource>();
         controller = GetComponentInChildren<CharacterController>();
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -60,6 +63,9 @@ public class PlayerController : MonoBehaviour
         footsteps[1] = footstep2;
         step = 0;
         lastStepTime = Time.time;
+
+        leftLaser.enabled = false;
+        rightLaser.enabled = false;
     }
 
     void Update()
@@ -89,29 +95,55 @@ public class PlayerController : MonoBehaviour
         }
 
         // Shoot on mouse
-        // TODO: Use "Fire1" instead of mouse?
         // TODO: Spawn a laser or something when firing
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetButtonDown("Fire1"))
         {
-            audio.clip = pewpew;
-            audio.Play();
+            StopCoroutine(FireLaser());
+            StartCoroutine(FireLaser());
+        }
+    }
 
-            int mask = ~(1 << 8); // Player layer is first layer that isn't reserved (8)
-            RaycastHit target;
-            bool hit = Physics.Raycast(camera.transform.position, camera.transform.forward, out target, Mathf.Infinity, mask); // TODO: Tweak firing distance
-            if (hit)
+    IEnumerator FireLaser()
+    {
+        leftLaser.enabled = true;
+        rightLaser.enabled = true;
+
+        audio.clip = pewpew;
+        audio.Play();
+
+        Vector3 leftEye = camera.transform.position - 0.5f * camera.transform.right + 0.1f * camera.transform.forward;
+        Vector3 rightEye = camera.transform.position + 0.5f * camera.transform.right + 0.1f * camera.transform.forward;
+        leftLaser.SetPosition(0, leftEye);
+        rightLaser.SetPosition(0, rightEye);
+
+        RaycastHit target;
+        Ray ray = new Ray(camera.transform.position, camera.transform.forward);        
+        bool hit = Physics.Raycast(ray, out target, Mathf.Infinity, ~(1 << 8));
+        if (hit)
+        {
+            leftLaser.SetPosition(1, target.point);
+            rightLaser.SetPosition(1, target.point);
+
+            if (target.transform.gameObject.CompareTag("Glass"))
             {
-                if (target.transform.gameObject.CompareTag("Glass"))
-                {
-                    GameManager.HitGlass();
-                }
-                else if (target.transform.gameObject.CompareTag("Enemy"))
-                {
-                    Enemy enemy = target.transform.gameObject.GetComponent<Enemy>(); // TODO: Replace this with messages?
-                    enemy.Die();
-                }
+                GameManager.HitGlass();
+            }
+            else if (target.transform.gameObject.CompareTag("Enemy"))
+            {
+                Enemy enemy = target.transform.gameObject.GetComponent<Enemy>(); // TODO: Replace this with messages?
+                enemy.Die();
             }
         }
+        else
+        {
+            Vector3 point = ray.GetPoint(10);
+            leftLaser.SetPosition(1, point);
+            rightLaser.SetPosition(1, point);
+        }
+
+        yield return new WaitForSeconds(0.1f);
+        leftLaser.enabled = false;
+        rightLaser.enabled = false;
     }
 
 }
