@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
     private const int MAX_HITS = 30;
 
     // Game state
+    public static GameObject player;
     protected static int subjectNo;
     protected static int hits;
     protected static int bumps;
@@ -68,6 +69,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         // Initialize game state
+        player = GameObject.FindGameObjectWithTag("Player");
         subjectNo = (int) Random.Range(1, 8192);
         hits = 0;
         bumps = 0;
@@ -82,7 +84,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator Begin()
     {
-        /*Dialogue exposition = new Dialogue();
+        Dialogue exposition = new Dialogue();
         exposition.color = new Color32(255, 150, 255, 255);
         exposition.name = "Professor";
         exposition.sentences = new string[] {
@@ -91,10 +93,8 @@ public class GameManager : MonoBehaviour
             "Unfortunately, there is only a 25% chance that you will not die horribly.",
             "Please, try not to panic."
         };
-        yield return dialogueManager.OpenDialogue(exposition);*/
+        yield return dialogueManager.OpenDialogue(exposition);
         paused = false;
-        ImbuePowers();
-        yield return null;
     }
 
     public static bool IsPaused()
