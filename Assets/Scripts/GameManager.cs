@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator Begin()
     {
-        Dialogue exposition = new Dialogue();
+        /*Dialogue exposition = new Dialogue();
         exposition.color = new Color32(255, 150, 255, 255);
         exposition.name = "Professor";
         exposition.sentences = new string[] {
@@ -93,8 +93,12 @@ public class GameManager : MonoBehaviour
             "Unfortunately, there is only a 25% chance that you will not die horribly.",
             "Please, try not to panic."
         };
-        yield return dialogueManager.OpenDialogue(exposition);
+        yield return dialogueManager.OpenDialogue(exposition);*/
         paused = false;
+        ImbuePowers();
+        hits = MAX_HITS - 1;
+        HitGlass();
+        yield return null;
     }
 
     public static bool IsPaused()
