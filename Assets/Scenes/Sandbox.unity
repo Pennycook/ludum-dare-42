@@ -1448,21 +1448,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 65344797790407982, guid: 7715030751c819842aedf1272271528a,
-        type: 2}
-      propertyPath: m_Size.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 65344797790407982, guid: 7715030751c819842aedf1272271528a,
-        type: 2}
-      propertyPath: m_Size.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 65344797790407982, guid: 7715030751c819842aedf1272271528a,
-        type: 2}
-      propertyPath: m_Size.z
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 114136922757490984, guid: 7715030751c819842aedf1272271528a,
         type: 2}
       propertyPath: trigger
