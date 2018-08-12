@@ -1913,6 +1913,12 @@ Prefab:
       propertyPath: smash
       value: 
       objectReference: {fileID: 8300000, guid: dc35259a3a9400d46b4c64d34578c149, type: 3}
+    - target: {fileID: 114595788469123542, guid: 670d7351e8ca1cb46881e2162e234bea,
+        type: 2}
+      propertyPath: floorPrefab
+      value: 
+      objectReference: {fileID: 1890802356554424, guid: 42ae4b897bdb9554cb2aa1eba0fb9982,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 670d7351e8ca1cb46881e2162e234bea, type: 2}
   m_IsPrefabParent: 0

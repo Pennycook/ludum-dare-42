@@ -61,6 +61,7 @@ public class Cell : MonoBehaviour
 
         floor = GameObject.Instantiate(floorPrefab, this.transform);
         floor.transform.localScale = new Vector3(width, width, 1);
+        floor.transform.localPosition = new Vector3(0, -0.5f, 0);
 
         ceiling = GameObject.Instantiate(ceilingPrefab, this.transform);
         ceiling.transform.localScale = new Vector3(width, width, 1);
