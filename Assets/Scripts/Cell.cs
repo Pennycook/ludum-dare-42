@@ -134,7 +134,10 @@ public class Cell : MonoBehaviour
 
     void Update()
     {
-        Shrink();
+        if (!GameManager.IsPaused())
+        {
+            Shrink();
+        }
     }
 
 }

@@ -70,6 +70,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        // Disallow movement if game is paused.
+        if (GameManager.IsPaused())
+        {
+            return;
+        }
+
         // Move player on WASD, Arrow Keys, or Joystick
         float strafe = Input.GetAxis("Horizontal");
         float walk = Input.GetAxis("Vertical");

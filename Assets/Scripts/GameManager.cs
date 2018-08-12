@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
     protected static int hits;
     protected static int bumps;
     protected static bool powers;
+    protected static bool paused;
 
     void Awake()
     {
@@ -68,14 +69,10 @@ public class GameManager : MonoBehaviour
         subjectNo = (int) Random.Range(1, 8192);
         hits = 0;
         bumps = 0;
+        paused = true;
 
         // Find other managers
         dialogueManager = FindObjectOfType<DialogueManager>();
-    }
-
-    void Start()
-    {
-        Begin();
     }
 
     public static void Begin()
@@ -90,6 +87,13 @@ public class GameManager : MonoBehaviour
             "Please, try not to panic."
         };
         dialogueManager.OpenDialogue(exposition);
+
+        paused = false;
+    }
+
+    public static bool IsPaused()
+    {
+        return paused;
     }
 
     public static void HitGlass()
