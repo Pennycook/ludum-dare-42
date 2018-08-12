@@ -305,18 +305,17 @@ Prefab:
       propertyPath: healthUI
       value: 
       objectReference: {fileID: 1228804961}
-    - target: {fileID: 4970026113950256, guid: 0fe9e2286f84901479eba869a5e51faf, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+    - target: {fileID: 114159132807684108, guid: 0fe9e2286f84901479eba869a5e51faf,
+        type: 2}
+      propertyPath: crack
+      value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 4970026113950256, guid: 0fe9e2286f84901479eba869a5e51faf, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 4970026113950256, guid: 0fe9e2286f84901479eba869a5e51faf, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 114159132807684108, guid: 0fe9e2286f84901479eba869a5e51faf,
+        type: 2}
+      propertyPath: crackPrefab
+      value: 
+      objectReference: {fileID: 1150151066178150, guid: 23b135ba2406a9942aaf82586d3c876d,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0fe9e2286f84901479eba869a5e51faf, type: 2}
   m_IsPrefabParent: 0

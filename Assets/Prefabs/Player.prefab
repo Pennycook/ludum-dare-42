@@ -348,6 +348,7 @@ MonoBehaviour:
   leftLaser: {fileID: 120901795474821922}
   rightLaser: {fileID: 120492409661612860}
   healthUI: {fileID: 0}
+  crack: {fileID: 0}
 --- !u!120 &120492409661612860
 LineRenderer:
   m_ObjectHideFlags: 1

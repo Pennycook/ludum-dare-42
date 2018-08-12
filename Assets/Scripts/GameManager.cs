@@ -90,7 +90,6 @@ public class GameManager : MonoBehaviour
             "Please, try not to panic."
         };
         yield return dialogueManager.OpenDialogue(exposition);
-        yield return null;
         paused = false;
     }
 

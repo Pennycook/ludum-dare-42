@@ -77,11 +77,11 @@ public class Cell : MonoBehaviour
                     walls[d].transform.localPosition += new Vector3(width / 2, 0, 0);
                     break;
                 case 1:
-                    walls[d].transform.localEulerAngles = new Vector3(0, 90, 0);
+                    walls[d].transform.localEulerAngles = new Vector3(0, -90, 0);
                     walls[d].transform.localPosition += new Vector3(0, 0, width / 2);
                     break;
                 case 2:
-                    walls[d].transform.localEulerAngles = new Vector3(0, -90, 0);
+                    walls[d].transform.localEulerAngles = new Vector3(0, 90, 0);
                     walls[d].transform.localPosition += new Vector3(0, 0, -width / 2);
                     break;
                 case 3:

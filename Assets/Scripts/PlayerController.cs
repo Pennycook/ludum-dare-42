@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     public LineRenderer leftLaser;
     public LineRenderer rightLaser;
     public Image healthUI;
+    public GameObject crackPrefab;
 
     private Camera camera;
     private AudioSource audio;
@@ -142,6 +143,9 @@ public class PlayerController : MonoBehaviour
             if (target.transform.gameObject.CompareTag("Glass"))
             {
                 GameManager.HitGlass();
+                GameObject crack = Instantiate(crackPrefab, target.transform);
+                crack.transform.position = target.point;
+                Debug.Log(crack.transform.position);
             }
             else if (target.transform.gameObject.CompareTag("Enemy"))
             {
