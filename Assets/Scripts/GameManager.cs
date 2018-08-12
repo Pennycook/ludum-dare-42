@@ -90,6 +90,7 @@ public class GameManager : MonoBehaviour
             "Please, try not to panic."
         };
         yield return dialogueManager.OpenDialogue(exposition);
+        yield return null;
         paused = false;
     }
 
@@ -157,11 +158,19 @@ public class GameManager : MonoBehaviour
     public IEnumerator ReleaseTheEnemy()
     {
         released = true;
+
         Dialogue dialogue = new Dialogue();
         dialogue.color = new Color32(150, 150, 255, 255);
         dialogue.name = "Assistant";
         dialogue.sentences = new string[] {
             "Releasing the foreign agent."
+        };
+        yield return dialogueManager.OpenDialogue(dialogue);
+
+        dialogue.color = new Color32(255, 200, 255, 255);
+        dialogue.name = "Professor";
+        dialogue.sentences = new string[] {
+            "Try not to let it touch you."
         };
         yield return dialogueManager.OpenDialogue(dialogue);
     }
@@ -200,7 +209,27 @@ public class GameManager : MonoBehaviour
         dialogue.sentences = new string[] {
             "Sigh...  How disappointing.",
             string.Format("I really expected better of you, Subject #{0}.", subjectNo),
-            "We're going to have to try again.  Prepare the next one."
+            "We're going to have to try again.  Prepare the next subject."
+        };
+        yield return dialogueManager.OpenDialogue(dialogue);
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+		Application.Quit();
+#endif
+    }
+
+    public IEnumerator OutOfHealth()
+    {
+        paused = true;
+
+        Dialogue dialogue = new Dialogue();
+        dialogue.color = new Color32(255, 150, 255, 255);
+        dialogue.name = "Professor";
+        dialogue.sentences = new string[] {
+            "Another dead subject.  Why do they all find it so hard to avoid the foreign agent?",
+            "Oh well...  Onward and upward!"
         };
         yield return dialogueManager.OpenDialogue(dialogue);
 

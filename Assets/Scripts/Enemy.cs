@@ -36,7 +36,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 
-    const int MAX_HEALTH = 1;
+    const int MAX_HEALTH = 3;
     const float MAX_SPEED = 1f;
 
     protected Rigidbody body;
@@ -77,7 +77,6 @@ public class Enemy : MonoBehaviour
             if (health > 0)
             {
                 body.velocity += Random.onUnitSphere * MAX_SPEED;
-                //body.Add(body.position + Random.onUnitSphere * MAX_SPEED);
             }
         }
     }

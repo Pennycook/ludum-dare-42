@@ -32,18 +32,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     public AudioClip footstep1;
     public AudioClip footstep2;
     public AudioClip pewpew;
+    public AudioClip ouch;
     public LineRenderer leftLaser;
     public LineRenderer rightLaser;
+    public Image healthUI;
 
     private Camera camera;
     private AudioSource audio;
     protected CharacterController controller;
+
+    private const float MAX_HEALTH = 3;
+    private float health;
 
     protected AudioClip[] footsteps;
     private int step;
@@ -63,6 +69,9 @@ public class PlayerController : MonoBehaviour
         footsteps[1] = footstep2;
         step = 0;
         lastStepTime = Time.time;
+
+        health = MAX_HEALTH;
+        healthUI.color = new Color32(200, 0, 0, 0);
 
         leftLaser.enabled = false;
         rightLaser.enabled = false;
@@ -154,10 +163,47 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if (GameManager.IsPaused())
+        {
+            return;
+        }
+
         if (other.gameObject.CompareTag("Glass"))
         {
             GameManager.BumpGlass();
-        }        
-    }    
+        }
+        else if (other.gameObject.CompareTag("Enemy"))
+        {
+            audio.clip = ouch;
+            audio.Play();
+            StartCoroutine(FlashHealth());
+            
+            health--;
+            if (health == 0)
+            {
+                StartCoroutine(Die());
+            }
+        }
+    }
 
+    IEnumerator FlashHealth()
+    {
+        byte alpha = 64;
+        while (alpha > 0)
+        {
+            healthUI.color = new Color32(200, 0, 0, alpha);
+            alpha -= 4;
+            yield return null;
+        }
+    }
+
+    IEnumerator Die()
+    {
+        for (int a = 0; a < 30; ++a)
+        {
+            transform.localEulerAngles += new Vector3(0, 0, -3);
+            yield return null;
+        }
+        yield return StartCoroutine(GameManager.instance.OutOfHealth());
+    }
 }
