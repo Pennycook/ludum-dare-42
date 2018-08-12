@@ -93,13 +93,16 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
-        health = 0;
-        body.velocity = new Vector3(0, 0, 0);
-        body.useGravity = true;
-        trigger.enabled = false;
-        audio.Play();
-        explosion = Instantiate(explosionPrefab, this.transform);
-        renderer.enabled = false;
+        if (health > 0) // TODO: Work out why this is necessary
+        {
+            health = 0;
+            body.velocity = new Vector3(0, 0, 0);
+            body.useGravity = true;
+            trigger.enabled = false;
+            audio.Play();
+            explosion = Instantiate(explosionPrefab, this.transform);
+            renderer.enabled = false;
+        }
     }
 
 }

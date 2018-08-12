@@ -151,6 +151,11 @@ public class PlayerController : MonoBehaviour
                 Enemy enemy = target.transform.gameObject.GetComponent<Enemy>(); // TODO: Replace this with messages?
                 enemy.Die();
             }
+            else if (target.transform.gameObject.CompareTag("Assistant") || target.transform.gameObject.CompareTag("Professor"))
+            {
+                NPC npc = target.transform.gameObject.GetComponent<NPC>(); // TODO: Replace this with messages?
+                npc.Die();
+            }
         }
         else
         {

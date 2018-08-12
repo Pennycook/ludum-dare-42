@@ -38,10 +38,20 @@ public class NPC : MonoBehaviour
     protected CharacterController controller;
     protected Vector3 direction;
     protected int counter = 0;
+    protected bool dead;
+
+    public GameObject explosionPrefab;
+
+    protected AudioSource audio;
+    protected MeshRenderer renderer;
+    protected GameObject explosion;
 
     void Start()
     {
+        audio = GetComponent<AudioSource>();
         controller = GetComponent<CharacterController>();
+        renderer = GetComponent<MeshRenderer>();
+        dead = false;
     }
 
     void Update()
@@ -72,6 +82,17 @@ public class NPC : MonoBehaviour
             }
             direction.y = 0;
             controller.SimpleMove(direction);
+        }
+    }
+
+    public void Die()
+    {
+        if (!dead)
+        {
+            audio.Play();
+            explosion = Instantiate(explosionPrefab, this.transform);
+            renderer.enabled = false;
+            dead = true;
         }
     }
 
