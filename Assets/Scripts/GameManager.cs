@@ -86,10 +86,7 @@ public class GameManager : MonoBehaviour
             "Unfortunately, there is only a 25% chance that you will not die horribly.",
             "Please, try not to panic."
         };
-        Debug.Log("yielding...");
-        Coroutine d = dialogueManager.OpenDialogue(exposition);
-        yield return d;
-        Debug.Log("...resuming");
+        yield return dialogueManager.OpenDialogue(exposition);
         paused = false;
     }
 
@@ -171,8 +168,11 @@ public class GameManager : MonoBehaviour
         return powers;
     }
 
-    public static void OutOfSpace()
+    public IEnumerator OutOfSpace(AudioSource audio)
     {
+        audio.Play();
+        paused = true;
+        Camera.main.cullingMask = (1 << 5); // only show the UI
         Dialogue dialogue = new Dialogue();
         dialogue.color = new Color32(255, 150, 255, 255);
         dialogue.name = "Professor";
@@ -181,7 +181,12 @@ public class GameManager : MonoBehaviour
             string.Format("I really expected better of you, Subject #{0}.", subjectNo),
             "We're going to have to try again.  Get rid of it."
         };
-        dialogueManager.OpenDialogue(dialogue);
+        yield return dialogueManager.OpenDialogue(dialogue);
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+		Application.Quit();
+#endif
     }
 
 }

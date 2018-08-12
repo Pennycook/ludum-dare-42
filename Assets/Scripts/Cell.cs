@@ -39,6 +39,8 @@ public class Cell : MonoBehaviour
     public GameObject wallPrefab;
     public GameObject floorPrefab;
     public GameObject ceilingPrefab;
+    public AudioSource audio;
+    public AudioClip squash;
 
     const float HEIGHT = 2.5f;
     const float MIN_WIDTH = 1f;
@@ -102,7 +104,8 @@ public class Cell : MonoBehaviour
         }
         if (width == MIN_WIDTH)
         {
-            GameManager.OutOfSpace();
+            audio.clip = squash;
+            StartCoroutine(GameManager.instance.OutOfSpace(audio));
             return;
         }
         
