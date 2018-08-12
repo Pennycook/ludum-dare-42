@@ -37,17 +37,23 @@ public class Enemy : MonoBehaviour
 {
 
     public BoxCollider trigger;
+    public GameObject explosionPrefab;
 
     const int MAX_HEALTH = 3;
     const float MAX_SPEED = 1f;
 
+    protected AudioSource audio;
     protected Rigidbody body;
+    protected MeshRenderer renderer;
     protected int health;
     protected bool spawned = false;
+    protected GameObject explosion;
 
     void Start()
     {
+        audio = GetComponent<AudioSource>();
         body = GetComponent<Rigidbody>();
+        renderer = GetComponent<MeshRenderer>();
         health = MAX_HEALTH;
         spawned = false;
         transform.localScale = new Vector3(0, 0, 0);
@@ -91,6 +97,9 @@ public class Enemy : MonoBehaviour
         body.velocity = new Vector3(0, 0, 0);
         body.useGravity = true;
         trigger.enabled = false;
+        audio.Play();
+        explosion = Instantiate(explosionPrefab, this.transform);
+        renderer.enabled = false;
     }
 
 }
