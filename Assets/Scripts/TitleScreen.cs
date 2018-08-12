@@ -41,12 +41,15 @@ public class TitleScreen : MonoBehaviour
     void Start()
     {
         group = GetComponent<CanvasGroup>();
-        group.alpha = 1;
+        if (GameManager.firstGame)
+        {
+            group.alpha = 1;
+        }
     }
 
     void Update()
     {
-        if (group.alpha == 1 && Input.GetButtonDown("Fire1"))
+        if (group.alpha == 1 && (!GameManager.firstGame || Input.GetButtonDown("Fire1")))
         {
             group.alpha = 0;
             StartCoroutine(GameManager.instance.Begin());

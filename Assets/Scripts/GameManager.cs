@@ -32,6 +32,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -47,6 +48,7 @@ public class GameManager : MonoBehaviour
 
     // Game state
     public static GameObject player;
+    public static bool firstGame;
     protected static int subjectNo;
     protected static int hits;
     protected static int bumps;
@@ -61,16 +63,18 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            subjectNo = (int)Random.Range(1, 8192);
+            firstGame = true;
         }
         else if (instance != this)
         {
+            firstGame = false;
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
 
         // Initialize game state
         player = GameObject.FindGameObjectWithTag("Player");
-        subjectNo = (int) Random.Range(1, 8192);
         hits = 0;
         bumps = 0;
         powers = false;
@@ -82,9 +86,23 @@ public class GameManager : MonoBehaviour
         dialogueManager = FindObjectOfType<DialogueManager>();
     }
 
+    public IEnumerator Restart()
+    {
+        subjectNo += 1;
+        hits = 0;
+        bumps = 0;
+        powers = false;
+        released = false;
+        smashed = false;
+        paused = true;
+
+        SceneManager.LoadScene(0, LoadSceneMode.Single);
+        yield return null;
+    }
+
     public IEnumerator Begin()
     {
-        /*Dialogue exposition = new Dialogue();
+        Dialogue exposition = new Dialogue();
         exposition.color = new Color32(255, 150, 255, 255);
         exposition.name = "Professor";
         exposition.sentences = new string[] {
@@ -93,12 +111,8 @@ public class GameManager : MonoBehaviour
             "Unfortunately, there is only a 25% chance that you will not die horribly.",
             "Please, try not to panic."
         };
-        yield return dialogueManager.OpenDialogue(exposition);*/
+        yield return dialogueManager.OpenDialogue(exposition);
         paused = false;
-        ImbuePowers();
-        hits = MAX_HITS - 1;
-        HitGlass();
-        yield return null;
     }
 
     public static bool IsPaused()
@@ -224,12 +238,7 @@ public class GameManager : MonoBehaviour
             "We're going to have to try again.  Prepare the next subject."
         };
         yield return dialogueManager.OpenDialogue(dialogue);
-
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-		Application.Quit();
-#endif
+        yield return GameManager.instance.Restart();
     }
 
     public IEnumerator OutOfHealth()
@@ -244,12 +253,7 @@ public class GameManager : MonoBehaviour
             "Oh well...  Onward and upward!"
         };
         yield return dialogueManager.OpenDialogue(dialogue);
-
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-		Application.Quit();
-#endif
+        yield return GameManager.instance.Restart();
     }
 
     public IEnumerator Win()
