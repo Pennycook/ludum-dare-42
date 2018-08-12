@@ -41,19 +41,44 @@ public class Enemy : MonoBehaviour
 
     protected Rigidbody body;
     protected int health;
+    protected bool spawned = false;
 
     void Start()
     {
         body = GetComponent<Rigidbody>();
         health = MAX_HEALTH;
+        spawned = false;
+        transform.localScale = new Vector3(0, 0, 0);
+    }
+
+    IEnumerator spawn()
+    {
+        spawned = true;
+        float scale = 0;
+        while (scale < 0.5f)
+        {
+            scale += 0.05f;
+            scale = Mathf.Clamp(scale, 0, 0.5f);
+            transform.localScale = new Vector3(scale, scale, scale);
+            yield return null;
+        }
     }
 
     void Update()
     {
-        // Move randomly (while alive)
-        if (health > 0)
+        if (GameManager.EnemyReleased() && !spawned)
         {
-            body.velocity += Random.onUnitSphere * MAX_SPEED;
+            StartCoroutine(spawn());
+        }
+
+        if (spawned)
+        {
+            // Move randomly (while alive)
+            if (health > 0)
+            {
+                body.velocity += Random.onUnitSphere * MAX_SPEED;
+                //body.Add(body.position + Random.onUnitSphere * MAX_SPEED);
+            }
         }
     }
 

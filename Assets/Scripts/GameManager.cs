@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
     protected static int hits;
     protected static int bumps;
     protected static bool powers;
+    protected static bool released;
     protected static bool paused;
 
     void Awake()
@@ -69,6 +70,8 @@ public class GameManager : MonoBehaviour
         subjectNo = (int) Random.Range(1, 8192);
         hits = 0;
         bumps = 0;
+        powers = false;
+        released = false;
         paused = true;
 
         // Find other managers
@@ -150,6 +153,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+    public IEnumerator ReleaseTheEnemy()
+    {
+        released = true;
+        Dialogue dialogue = new Dialogue();
+        dialogue.color = new Color32(150, 150, 255, 255);
+        dialogue.name = "Assistant";
+        dialogue.sentences = new string[] {
+            "Releasing the foreign agent."
+        };
+        yield return dialogueManager.OpenDialogue(dialogue);
+    }
+
+    public static bool EnemyReleased()
+    {
+        return released;
+    }
+
     public static void ImbuePowers()
     {
         powers = true;
@@ -179,9 +200,10 @@ public class GameManager : MonoBehaviour
         dialogue.sentences = new string[] {
             "Sigh...  How disappointing.",
             string.Format("I really expected better of you, Subject #{0}.", subjectNo),
-            "We're going to have to try again.  Get rid of it."
+            "We're going to have to try again.  Prepare the next one."
         };
         yield return dialogueManager.OpenDialogue(dialogue);
+
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else

@@ -45,7 +45,7 @@ public class Cell : MonoBehaviour
     const float HEIGHT = 2.5f;
     const float MIN_WIDTH = 1f;
     const float MAX_WIDTH = 10f;
-    const float DELTA = 0.005f;
+    const float DELTA = 0.0025f;
 
     protected float width;
     protected GameObject[] walls;
@@ -98,7 +98,13 @@ public class Cell : MonoBehaviour
         // (But stop it from shrinking too much)
         width -= DELTA;
         width = Mathf.Clamp(width, MIN_WIDTH, MAX_WIDTH);
-        if (!GameManager.HavePowers() && width <= MAX_WIDTH / 2)
+
+        // Trigger various events based on the size of the cell
+        if (!GameManager.EnemyReleased() && width <= 0.9 * MAX_WIDTH)
+        {
+            StartCoroutine(GameManager.instance.ReleaseTheEnemy());
+        }
+        if (!GameManager.HavePowers() && width <= 0.5f * MAX_WIDTH)
         {
             GameManager.ImbuePowers();
         }
