@@ -46,11 +46,10 @@ public class TitleScreen : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.IsPaused() && Input.GetButtonDown("Fire1"))
+        if (group.alpha == 1 && Input.GetButtonDown("Fire1"))
         {
             group.alpha = 0;
-            GameManager.Begin();
-            Destroy(this);
+            StartCoroutine(GameManager.instance.Begin());
         }
     }
 

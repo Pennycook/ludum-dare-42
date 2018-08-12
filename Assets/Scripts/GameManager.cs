@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
         dialogueManager = FindObjectOfType<DialogueManager>();
     }
 
-    public static void Begin()
+    public IEnumerator Begin()
     {
         Dialogue exposition = new Dialogue();
         exposition.color = new Color32(255, 150, 255, 255);
@@ -83,11 +83,13 @@ public class GameManager : MonoBehaviour
         exposition.sentences = new string[] {
             string.Format("Hello, Subject #{0}.", subjectNo),
             "I have good news: based on your results so far, there is a 75% chance that this next test will be your last.",
-            "Unfortunately, there is also a 25% chance that you will die -- horribly.",
+            "Unfortunately, there is only a 25% chance that you will not die horribly.",
             "Please, try not to panic."
         };
-        dialogueManager.OpenDialogue(exposition);
-
+        Debug.Log("yielding...");
+        Coroutine d = dialogueManager.OpenDialogue(exposition);
+        yield return d;
+        Debug.Log("...resuming");
         paused = false;
     }
 

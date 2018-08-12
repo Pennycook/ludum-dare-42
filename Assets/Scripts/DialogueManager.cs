@@ -52,7 +52,7 @@ public class DialogueManager : MonoBehaviour
         sentenceQueue = new Queue<string>();
     }
 
-    public void OpenDialogue(Dialogue dialogue)
+    public Coroutine OpenDialogue(Dialogue dialogue)
     {
         nameUI.color = dialogue.color;
         nameUI.text = dialogue.name;
@@ -65,7 +65,7 @@ public class DialogueManager : MonoBehaviour
 
         box.GetComponent<CanvasGroup>().alpha = 1;
         StopAllCoroutines();
-        StartCoroutine(TypeDialogue());
+        return StartCoroutine(TypeDialogue());
     }
 
     IEnumerator TypeDialogue()
