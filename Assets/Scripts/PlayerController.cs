@@ -145,7 +145,6 @@ public class PlayerController : MonoBehaviour
                 GameManager.HitGlass();
                 GameObject crack = Instantiate(crackPrefab, target.transform);
                 crack.transform.position = target.point;
-                Debug.Log(crack.transform.position);
             }
             else if (target.transform.gameObject.CompareTag("Enemy"))
             {

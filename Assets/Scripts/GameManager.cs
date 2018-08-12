@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
     protected static int bumps;
     protected static bool powers;
     protected static bool released;
+    protected static bool smashed;
     protected static bool paused;
 
     void Awake()
@@ -72,6 +73,7 @@ public class GameManager : MonoBehaviour
         bumps = 0;
         powers = false;
         released = false;
+        smashed = false;
         paused = true;
 
         // Find other managers
@@ -80,7 +82,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator Begin()
     {
-        Dialogue exposition = new Dialogue();
+        /*Dialogue exposition = new Dialogue();
         exposition.color = new Color32(255, 150, 255, 255);
         exposition.name = "Professor";
         exposition.sentences = new string[] {
@@ -89,8 +91,10 @@ public class GameManager : MonoBehaviour
             "Unfortunately, there is only a 25% chance that you will not die horribly.",
             "Please, try not to panic."
         };
-        yield return dialogueManager.OpenDialogue(exposition);
+        yield return dialogueManager.OpenDialogue(exposition);*/
         paused = false;
+        ImbuePowers();
+        yield return null;
     }
 
     public static bool IsPaused()
@@ -123,6 +127,7 @@ public class GameManager : MonoBehaviour
         }
         if (hits >= MAX_HITS)
         {
+            smashed = true;
             Dialogue dialogue = new Dialogue();            
             dialogue.color = new Color32(255, 150, 255, 255);
             dialogue.name = "Professor";
@@ -153,6 +158,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public static bool SmashedGlass()
+    {
+        return smashed;
+    }
 
     public IEnumerator ReleaseTheEnemy()
     {

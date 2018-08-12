@@ -1908,6 +1908,11 @@ Prefab:
       propertyPath: squash
       value: 
       objectReference: {fileID: 8300000, guid: b2b799036384e6441b83c1c36ff59812, type: 3}
+    - target: {fileID: 114595788469123542, guid: 670d7351e8ca1cb46881e2162e234bea,
+        type: 2}
+      propertyPath: smash
+      value: 
+      objectReference: {fileID: 8300000, guid: dc35259a3a9400d46b4c64d34578c149, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 670d7351e8ca1cb46881e2162e234bea, type: 2}
   m_IsPrefabParent: 0

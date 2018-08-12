@@ -41,6 +41,7 @@ public class Cell : MonoBehaviour
     public GameObject ceilingPrefab;
     public AudioSource audio;
     public AudioClip squash;
+    public AudioClip smash;
 
     const float HEIGHT = 2.5f;
     const float MIN_WIDTH = 1f;
@@ -51,6 +52,7 @@ public class Cell : MonoBehaviour
     protected GameObject[] walls;
     protected GameObject floor;
     protected GameObject ceiling;
+    protected bool smashed;
 
     void Start()
     {
@@ -90,6 +92,8 @@ public class Cell : MonoBehaviour
                     break;
             }
         }
+
+        smashed = false;
     }
 
     void Shrink()
@@ -116,6 +120,10 @@ public class Cell : MonoBehaviour
         }
         
         // Update the geometry to match the new size
+        if (GameManager.SmashedGlass())
+        {
+            return;
+        }
         floor.transform.localScale = new Vector3(width, width, 1);
         ceiling.transform.localScale = new Vector3(width, width, 1);
         for (int d = 0; d < 4; ++d)
@@ -146,6 +154,17 @@ public class Cell : MonoBehaviour
         if (!GameManager.IsPaused())
         {
             Shrink();
+        }
+        if (GameManager.SmashedGlass() && smashed == false)
+        {
+            smashed = true;
+            audio.clip = smash;
+            audio.Play();
+            foreach (GameObject wall in walls)
+            {
+                Destroy(wall);
+            }
+            Destroy(ceiling);
         }
     }
 
