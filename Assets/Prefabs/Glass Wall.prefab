@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4092712253766786}
   - component: {fileID: 33822450439135852}
   - component: {fileID: 65473263917001484}
+  - component: {fileID: 65265500115273388}
   - component: {fileID: 23921914580977376}
   m_Layer: 0
   m_Name: Glass Wall
@@ -83,6 +84,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1442160264345466}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &65265500115273388
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1442160264345466}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 20, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65473263917001484
 BoxCollider:
   m_ObjectHideFlags: 1

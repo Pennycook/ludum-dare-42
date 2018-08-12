@@ -43,10 +43,13 @@ public class GameManager : MonoBehaviour
     public static DialogueManager dialogueManager;
 
     // Magic constants for win/lose conditions
-    private const int MAX_HITS = 5;
+    private const int MAX_HITS = 30;
 
     // Game state
+    protected static int subjectNo;
     protected static int hits;
+    protected static int bumps;
+    protected static bool powers;
 
     void Awake()
     {
@@ -62,7 +65,9 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         // Initialize game state
+        subjectNo = (int) Random.Range(1, 8192);
         hits = 0;
+        bumps = 0;
 
         // Find other managers
         dialogueManager = FindObjectOfType<DialogueManager>();
@@ -79,7 +84,7 @@ public class GameManager : MonoBehaviour
         exposition.color = new Color32(255, 150, 255, 255);
         exposition.name = "Professor";
         exposition.sentences = new string[] {
-            string.Format("Hello, Subject #{0}.", (int) Random.Range(1, 8192)),
+            string.Format("Hello, Subject #{0}.", subjectNo),
             "I have good news: based on your results so far, there is a 75% chance that this next test will be your last.",
             "Unfortunately, there is also a 25% chance that you will die -- horribly.",
             "Please, try not to panic."
@@ -90,17 +95,87 @@ public class GameManager : MonoBehaviour
     public static void HitGlass()
     {
         hits++;
+        if (hits == 5)
+        {
+            Dialogue dialogue = new Dialogue();
+            dialogue.color = new Color32(150, 150, 255, 255);
+            dialogue.name = "Assistant";
+            dialogue.sentences = new string[] {
+                "Subject shows clear signs of distress, and has begun trying to escape from the test."
+            };
+            dialogueManager.OpenDialogue(dialogue);
+        }
+        if (hits == MAX_HITS / 2)
+        {
+            Dialogue dialogue = new Dialogue();
+            dialogue.color = new Color32(150, 150, 255, 255);
+            dialogue.name = "Professor";
+            dialogue.sentences = new string[] {
+                string.Format("Give up, Subject #{0} -- it's no use.  You think we can manufacture shrinking glass, but can't stop it from breaking?", subjectNo),
+            };
+            dialogueManager.OpenDialogue(dialogue);
+        }
         if (hits >= MAX_HITS)
         {
-            Dialogue secretEnding = new Dialogue();            
-            secretEnding.color = new Color32(255, 150, 255, 255);
-            secretEnding.name = "Professor";
-            secretEnding.sentences = new string[] {
+            Dialogue dialogue = new Dialogue();            
+            dialogue.color = new Color32(255, 150, 255, 255);
+            dialogue.name = "Professor";
+            dialogue.sentences = new string[] {
                 "...The subject seems to have broken free of the glass.",
                 "This has never happened before."
             };
-            dialogueManager.OpenDialogue(secretEnding);
+            dialogueManager.OpenDialogue(dialogue);
         }
+    }
+
+    public static void BumpGlass()
+    {
+        const int MAX_BUMPS = 5;
+        if (bumps < MAX_BUMPS)
+        {
+            bumps++;
+            if (bumps == MAX_BUMPS)
+            {
+                Dialogue dialogue = new Dialogue();
+                dialogue.color = new Color32(150, 150, 255, 255);
+                dialogue.name = "Assistant";
+                dialogue.sentences = new string[] {
+                    "Subject appears to have forgotten that they cannot walk through glass."
+                };
+                dialogueManager.OpenDialogue(dialogue);
+            }
+        }
+    }
+
+    public static void ImbuePowers()
+    {
+        powers = true;
+        Dialogue dialogue = new Dialogue();
+        dialogue.color = new Color32(255, 150, 255, 255);
+        dialogue.name = "Professor";
+        dialogue.sentences = new string[] {
+            "It's working!",
+            "Subject's latent abilities have awakened -- as expected -- in response to stress."
+        };
+        dialogueManager.OpenDialogue(dialogue);
+    }
+
+    public static bool HavePowers()
+    {
+        return powers;
+    }
+
+    public static void OutOfSpace()
+    {
+        Dialogue dialogue = new Dialogue();
+        dialogue.color = new Color32(255, 150, 255, 255);
+        dialogue.name = "Professor";
+        dialogue.sentences = new string[] {
+            "Sigh...  How disappointing.",
+            string.Format("I really expected better of you, Subject #{0}.", subjectNo),
+            "We're going to have to try again.  Get rid of it."
+        };
+        dialogueManager.OpenDialogue(dialogue);
     }
 
 }

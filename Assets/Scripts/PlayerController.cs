@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
 
         // Shoot on mouse
         // TODO: Spawn a laser or something when firing
-        if (Input.GetButtonDown("Fire1"))
+        if (GameManager.HavePowers() && Input.GetButtonDown("Fire1"))
         {
             StopCoroutine(FireLaser());
             StartCoroutine(FireLaser());
@@ -145,5 +145,13 @@ public class PlayerController : MonoBehaviour
         leftLaser.enabled = false;
         rightLaser.enabled = false;
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Glass"))
+        {
+            GameManager.BumpGlass();
+        }        
+    }    
 
 }

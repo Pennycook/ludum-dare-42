@@ -96,8 +96,13 @@ public class Cell : MonoBehaviour
         // (But stop it from shrinking too much)
         width -= DELTA;
         width = Mathf.Clamp(width, MIN_WIDTH, MAX_WIDTH);
+        if (!GameManager.HavePowers() && width <= MAX_WIDTH / 2)
+        {
+            GameManager.ImbuePowers();
+        }
         if (width == MIN_WIDTH)
         {
+            GameManager.OutOfSpace();
             return;
         }
         
