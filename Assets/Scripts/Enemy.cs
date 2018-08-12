@@ -36,6 +36,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 
+    public BoxCollider trigger;
+
     const int MAX_HEALTH = 3;
     const float MAX_SPEED = 1f;
 
@@ -49,11 +51,13 @@ public class Enemy : MonoBehaviour
         health = MAX_HEALTH;
         spawned = false;
         transform.localScale = new Vector3(0, 0, 0);
+        trigger.enabled = false;
     }
 
     IEnumerator spawn()
     {
         spawned = true;
+        trigger.enabled = true;
         float scale = 0;
         while (scale < 0.5f)
         {
@@ -86,6 +90,7 @@ public class Enemy : MonoBehaviour
         health = 0;
         body.velocity = new Vector3(0, 0, 0);
         body.useGravity = true;
+        trigger.enabled = false;
     }
 
 }
