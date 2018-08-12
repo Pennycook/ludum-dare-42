@@ -189,7 +189,7 @@ public class GameManager : MonoBehaviour
         dialogue.color = new Color32(150, 150, 255, 255);
         dialogue.name = "Assistant";
         dialogue.sentences = new string[] {
-            "Releasing the foreign agent."
+            "Releasing the stimulus."
         };
         yield return dialogueManager.OpenDialogue(dialogue);
 
@@ -249,7 +249,7 @@ public class GameManager : MonoBehaviour
         dialogue.color = new Color32(255, 150, 255, 255);
         dialogue.name = "Professor";
         dialogue.sentences = new string[] {
-            "Another dead subject.  Why do they all find it so hard to avoid the foreign agent?",
+            "Another dead subject.  Why do they all find it so hard to avoid the stimulus?",
             "Oh well...  Onward and upward!"
         };
         yield return dialogueManager.OpenDialogue(dialogue);
