@@ -187,6 +187,10 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(Die());
             }
         }
+        else if (other.gameObject.CompareTag("Finish"))
+        {
+            StartCoroutine(GameManager.instance.Win());
+        }
     }
 
     IEnumerator FlashHealth()

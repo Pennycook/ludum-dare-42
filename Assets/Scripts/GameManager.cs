@@ -252,4 +252,25 @@ public class GameManager : MonoBehaviour
 #endif
     }
 
+    public IEnumerator Win()
+    {
+        paused = true;
+
+        Dialogue dialogue = new Dialogue();
+        dialogue.color = new Color32(255, 255, 255, 255);
+        dialogue.name = "Developer";
+        dialogue.sentences = new string[] {
+            "You did it!  I hope you didn't encounter too many bugs along the way.",
+            "Thanks for taking the time to play 'Shrinking Panes'.",
+            "This game will self-destruct in 3, 2, 1..."
+        };
+        yield return dialogueManager.OpenDialogue(dialogue);
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+		Application.Quit();
+#endif
+    }
+
 }
