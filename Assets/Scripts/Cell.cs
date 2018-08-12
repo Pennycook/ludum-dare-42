@@ -152,11 +152,18 @@ public class Cell : MonoBehaviour
 
     void Update()
     {
+        // Nothing should happen to the cell once it's been destroyed
+        if (smashed)
+        {
+            return;
+        }
+
         if (!GameManager.IsPaused())
         {
             Shrink();
         }
-        if (GameManager.SmashedGlass() && smashed == false)
+
+        if (GameManager.SmashedGlass())
         {
             smashed = true;
             audio.clip = smash;
