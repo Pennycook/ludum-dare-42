@@ -102,13 +102,16 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator Begin()
     {
+        float success = Random.Range(51, 100);
+        float failure = (100 - success);
+
         Dialogue exposition = new Dialogue();
         exposition.color = new Color32(255, 150, 255, 255);
         exposition.name = "Professor";
         exposition.sentences = new string[] {
             string.Format("Hello, Subject #{0}.", subjectNo),
-            "I have good news: based on your results so far, there is a 75% chance that this next test will be your last.",
-            "Unfortunately, there is only a 25% chance that you will not die horribly.",
+            string.Format("I have good news: based on your results so far, there is a {0:#.##}% chance that this next test will be your last.", success),
+            string.Format("Unfortunately, there is only a {0:#.##}% chance that you will not die horribly.", failure),
             "Please, try not to panic."
         };
         yield return dialogueManager.OpenDialogue(exposition);
