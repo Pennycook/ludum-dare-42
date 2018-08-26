@@ -2284,9 +2284,9 @@ MonoBehaviour:
   m_Text: '<b>Controls</b>
 
 
-    WASD = Move
+    WASD/Arrow = Move
 
-    Arrows = Move
+    Shift = Run
 
     Click = Begin / Fire
 

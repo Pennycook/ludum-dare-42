@@ -52,6 +52,8 @@ public class PlayerController : MonoBehaviour
     private const float MAX_HEALTH = 3;
     private float health;
 
+    private const float STEP_TIME = 0.5f;
+    private const float RUN_SPEED = 2.5f;
     protected AudioClip[] footsteps;
     private int step;
     private float lastStepTime;
@@ -87,8 +89,16 @@ public class PlayerController : MonoBehaviour
         }
 
         // Move player on WASD, Arrow Keys, or Joystick
+        // Increase movement speed if Shift is held
+        float wait = STEP_TIME;
         float strafe = Input.GetAxis("Horizontal");
         float walk = Input.GetAxis("Vertical");
+        if (Input.GetButton("Fire3"))
+        {            
+            walk *= RUN_SPEED;
+            strafe *= RUN_SPEED;
+            wait /= (0.5f * RUN_SPEED);
+        }
         Vector3 right = transform.right;
         Vector3 forward = transform.forward;
         Vector3 speed = forward * walk + right * strafe;
@@ -102,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
         // Play a footstep sound when walking
         if (controller.isGrounded && (strafe != 0 || walk != 0)
-            && !audio.isPlaying && Time.time - lastStepTime >= 0.5f)
+            && !audio.isPlaying && Time.time - lastStepTime >= wait)
         {
             audio.clip = footsteps[step];
             audio.Play();
