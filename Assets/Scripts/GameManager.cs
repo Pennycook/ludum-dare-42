@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
     protected static bool powers;
     protected static bool released;
     protected static bool smashed;
+    protected static bool locked;
     protected static bool paused;
 
     void Awake()
@@ -80,7 +81,8 @@ public class GameManager : MonoBehaviour
         powers = false;
         released = false;
         smashed = false;
-        paused = true;
+        locked = true;
+        paused = false;
 
         // Find other managers
         dialogueManager = FindObjectOfType<DialogueManager>();
@@ -94,7 +96,7 @@ public class GameManager : MonoBehaviour
         powers = false;
         released = false;
         smashed = false;
-        paused = true;
+        locked = true;
 
         SceneManager.LoadScene(0, LoadSceneMode.Single);
         yield return null;
@@ -115,12 +117,29 @@ public class GameManager : MonoBehaviour
             "Please, try not to panic."
         };
         yield return dialogueManager.OpenDialogue(exposition);
-        paused = false;
+        locked = false;
+    }
+
+    public static bool IsLocked()
+    {
+        return locked;
     }
 
     public static bool IsPaused()
     {
         return paused;
+    }
+
+    public static void Pause()
+    {
+        Time.timeScale = 0.0f;
+        paused = true;
+    }
+
+    public static void Resume()
+    {
+        Time.timeScale = 1.0f;
+        paused = false;
     }
 
     public static void HitGlass()
@@ -230,7 +249,7 @@ public class GameManager : MonoBehaviour
     public IEnumerator OutOfSpace(AudioSource audio)
     {
         audio.Play();
-        paused = true;
+        locked = true;
         Camera.main.cullingMask = (1 << 5); // only show the UI
         Dialogue dialogue = new Dialogue();
         dialogue.color = new Color32(255, 150, 255, 255);
@@ -246,7 +265,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator OutOfHealth()
     {
-        paused = true;
+        locked = true;
 
         Dialogue dialogue = new Dialogue();
         dialogue.color = new Color32(255, 150, 255, 255);
@@ -261,7 +280,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator Win()
     {
-        paused = true;
+        locked = true;
 
         Dialogue dialogue = new Dialogue();
         dialogue.color = new Color32(255, 255, 255, 255);
@@ -272,6 +291,9 @@ public class GameManager : MonoBehaviour
             "This game will self-destruct in 3, 2, 1..."
         };
         yield return dialogueManager.OpenDialogue(dialogue);
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

@@ -82,8 +82,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // Disallow movement if game is paused.
-        if (GameManager.IsPaused())
+        // Disallow movement if game is locked.
+        if (GameManager.IsLocked() || GameManager.IsPaused())
         {
             return;
         }
@@ -181,7 +181,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (GameManager.IsPaused())
+        if (GameManager.IsLocked() || GameManager.IsPaused())
         {
             return;
         }

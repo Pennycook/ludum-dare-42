@@ -46,6 +46,11 @@ public class HiddenDoor : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.IsPaused())
+        {
+            return;
+        }
+
         if (GameManager.SmashedGlass() && hidden)
         {
             hidden = false;

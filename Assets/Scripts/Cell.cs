@@ -158,7 +158,7 @@ public class Cell : MonoBehaviour
             return;
         }
 
-        if (!GameManager.IsPaused())
+        if (!GameManager.IsLocked() && !GameManager.IsPaused())
         {
             Shrink();
         }

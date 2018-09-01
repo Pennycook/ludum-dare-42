@@ -77,6 +77,10 @@ public class DialogueManager : MonoBehaviour
             dialogueUI.text = "";
             foreach (char letter in sentence.ToCharArray())
             {
+                while (GameManager.IsPaused())
+                {
+                    yield return null;
+                }
                 dialogueUI.text += letter;
                 yield return null;
             }

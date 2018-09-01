@@ -56,6 +56,11 @@ public class NPC : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.IsPaused())
+        {
+            return;
+        }
+
         // Run away from the player
         if (GameManager.SmashedGlass())
         {

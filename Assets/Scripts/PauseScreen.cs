@@ -33,85 +33,78 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class PauseScreen : MonoBehaviour
 {
 
-    public BoxCollider trigger;
-    public GameObject explosionPrefab;
+    private CanvasGroup group;
+    private int screenHeight = 0;
+    private int screenWidth = 0;
 
-    const int MAX_HEALTH = 3;
-    const float MAX_SPEED = 1f;
-
-    protected AudioSource audio;
-    protected Rigidbody body;
-    protected MeshRenderer renderer;
-    protected int health;
-    protected bool spawned = false;
-    protected GameObject explosion;
-
-    void Start()
+    void Awake()
     {
-        audio = GetComponent<AudioSource>();
-        body = GetComponent<Rigidbody>();
-        renderer = GetComponent<MeshRenderer>();
-        health = MAX_HEALTH;
-        spawned = false;
-        transform.localScale = new Vector3(0, 0, 0);
-        trigger.enabled = false;
-    }
-
-    IEnumerator spawn()
-    {
-        spawned = true;
-        trigger.enabled = true;
-        float scale = 0;
-        while (scale < 0.5f)
-        {
-            while (GameManager.IsPaused())
-            {
-                yield return null;
-            }
-            scale += 0.05f;
-            scale = Mathf.Clamp(scale, 0, 0.5f);
-            transform.localScale = new Vector3(scale, scale, scale);
-            yield return null;
-        }
+        group = GetComponent<CanvasGroup>();
+        group.alpha = 0;
+        screenHeight = Screen.height;
+        screenWidth = Screen.width;
     }
 
     void Update()
     {
-        if (GameManager.IsPaused())
+        if (!GameManager.IsPaused() && Input.GetKeyDown(KeyCode.Escape))
+        { 
+            Pause();
+        }
+        else if (GameManager.IsPaused() && Input.GetButtonDown("Fire1"))
         {
-            return;
+            Resume();
         }
 
-        if (GameManager.EnemyReleased() && !spawned)
+        if (Screen.height != screenHeight || Screen.width != screenWidth)
         {
-            StartCoroutine(spawn());
-        }
-
-        if (spawned)
-        {
-            // Move randomly (while alive)
-            if (health > 0)
-            {
-                body.velocity += Random.onUnitSphere * MAX_SPEED;
-            }
+            screenHeight = Screen.height;
+            screenWidth = Screen.width;
+            Pause();
         }
     }
 
-    public void Die()
+    void OnApplicationFocus(bool focus)
     {
-        if (health > 0) // TODO: Work out why this is necessary
+        if (focus)
         {
-            health = 0;
-            body.velocity = new Vector3(0, 0, 0);
-            body.useGravity = true;
-            trigger.enabled = false;
-            audio.Play();
-            explosion = Instantiate(explosionPrefab, this.transform);
-            renderer.enabled = false;
+            Resume();
         }
+        else
+        {
+            Pause();
+        }
+    }
+
+    void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            Pause();
+        }
+        else
+        {
+            Resume();
+        }
+    }
+
+    private void Pause()
+    {
+        GameManager.Pause();
+        group.alpha = 1;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    private void Resume()
+    {
+        group.alpha = 0;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        GameManager.Resume();
     }
 
 }
